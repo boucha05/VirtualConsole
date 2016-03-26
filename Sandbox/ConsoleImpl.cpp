@@ -1,4 +1,5 @@
 #include "ConsoleImpl.h"
+#include <SDL_bits.h>
 #include <algorithm>
 
 namespace
@@ -26,6 +27,16 @@ namespace
             return true;
         }
     };
+
+    bool isPowerOf2(int value)
+    {
+        return (value >= 0) && ((value & (value - 1)) == 0);
+    }
+
+    int getPowerOf2(int value)
+    {
+        return SDL_MostSignificantBitIndex32(value);
+    }
 }
 
 namespace Console
@@ -151,10 +162,13 @@ namespace Console
 
     void Context::reboot()
     {
-        mClip = mScreen;
-        mCamera.set(0, 0);
-        mColor = 0;
         mColorTable.clear();
+        mMemory.clear();
+
+        clip(0, 0, mScreen.size.x, mScreen.size.y);
+        camera(0, 0);
+        color(0);
+        sprsheet(0, 0, 0, 0, 0, 0);
     }
 
     void Context::flip()
@@ -267,6 +281,89 @@ namespace Console
             for (int x = 0; x < region.size.x; ++x)
                 row[x] = value;
             row += mScreen.size.x;
+        }
+    }
+
+    void Context::memsize(int size)
+    {
+        mMemory.resize(size, 0);
+    }
+
+    void Context::memload(int offset, const void* src, int size)
+    {
+        ASSERT(offset + size <= mMemory.size());
+        memcpy(mMemory.data(), src, size);
+    }
+
+    void Context::sprsheet(int offset, int bits, int sizex, int sizey, int countx, int county)
+    {
+        ASSERT(isPowerOf2(sizex));
+        ASSERT(sizex <= cMaxSpriteSize);
+        ASSERT(isPowerOf2(sizey));
+        ASSERT(sizey <= cMaxSpriteSize);
+        ASSERT(isPowerOf2(countx));
+        ASSERT(isPowerOf2(county));
+
+        mSpriteOffset = offset;
+        mSpriteBits = bits;
+        mLog2SpriteSize.set(getPowerOf2(sizex), getPowerOf2(sizey));
+        mSpriteSize.set(sizex, sizey);
+        mLog2SpriteCount.set(getPowerOf2(countx), getPowerOf2(county));
+        mSpriteCount.set(countx, county);
+        mLog2SpriteSheetSize = mLog2SpriteSize;
+        mLog2SpriteSheetSize.add(mLog2SpriteCount);
+        mSpriteSheetSize.set(1 << mLog2SpriteSheetSize.x, 1 << mLog2SpriteSheetSize.y);
+        if (bits)
+        {
+            ASSERT(static_cast<size_t>(1 << (mLog2SpriteSheetSize.x + mLog2SpriteSheetSize.y)) <= mMemory.size());
+        }
+    }
+
+    void Context::spr(int n, int x, int y, int w, int h, bool flip_x, bool flip_y)
+    {
+        Point sprite;
+        sprite.x = n & (mSpriteCount.x - 1);
+        sprite.y = n >> mLog2SpriteCount.x;
+        ASSERT((sprite.x + w) <= mSpriteCount.x);
+        ASSERT((sprite.y + h) <= mSpriteCount.y);
+
+        Rect rect;
+        rect.set(x, y, w << mLog2SpriteSize.x, h << mLog2SpriteSize.y);
+        rect.pos.add(mCamera);
+        Rect region;
+        region.intersection(rect, mClip);
+        Point pos = region.pos;
+        pos.sub(mCamera);
+
+        Point pitch;
+        pitch.x = 1;
+        pitch.y = mSpriteSheetSize.x;
+        if (flip_x)
+        {
+            pos.x = mSpriteSheetSize.x - 1 - pos.x;
+            pitch.x = -pitch.x;
+        }
+        if (flip_y)
+        {
+            pos.y = mSpriteSheetSize.y - 1 - pos.y;
+            pitch.y = -pitch.y;
+        }
+
+        int srcOffset = mSpriteOffset + pos.x + (pos.y << mLog2SpriteSheetSize.x);
+        int dstOffset = region.pos.x + (region.pos.y * mScreen.size.x);
+        for (int posy = 0; posy < region.size.y; ++posy)
+        {
+            int src = srcOffset;
+            for (int posx = 0; posx < region.size.x; ++posx)
+            {
+                uint8_t value = mMemory[src];
+                src += pitch.x;
+                uint32_t pixel = mColorTable[value];
+                mFrame[dstOffset + posx] = pixel;
+            }
+
+            srcOffset += pitch.y;
+            dstOffset += mScreen.size.x;
         }
     }
 }

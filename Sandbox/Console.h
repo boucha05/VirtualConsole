@@ -33,4 +33,8 @@ namespace Console
     void camera(Context& context, int x, int y);
     void rect(Context& context, int x, int y, int w, int h);
     void rectfill(Context& context, int x, int y, int w, int h);
+    void memsize(Context& context, int size);
+    void memload(Context& context, int offset, const void* src, int size);
+    void sprsheet(Context& context, int offset, int bits, int sizex, int sizey, int countx, int county);
+    void spr(Context& context, int n, int x, int y, int w, int h, bool flip_x, bool flip_y);
 }

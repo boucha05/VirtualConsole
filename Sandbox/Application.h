@@ -58,6 +58,26 @@ public:
         Console::rectfill(*mContext, x, y, w, h);
     }
 
+    void memsize(int size)
+    {
+        Console::memsize(*mContext, size);
+    }
+
+    void memload(int offset, const void* src, int size)
+    {
+        Console::memload(*mContext, offset, src, size);
+    }
+
+    void sprsheet(int offset, int bits, int sizex, int sizey, int countx, int county)
+    {
+        Console::sprsheet(*mContext, offset, bits, sizex, sizey, countx, county);
+    }
+
+    void spr(int n, int x, int y, int w, int h, bool flip_x = false, bool flip_y = false)
+    {
+        Console::spr(*mContext, n, x, y, w, h, flip_x, flip_y);
+    }
+
 protected:
     virtual void init() = 0;
     virtual void update() = 0;

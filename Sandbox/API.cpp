@@ -70,4 +70,24 @@ namespace Console
     {
         context.rectfill(x, y, w, h);
     }
+
+    void memsize(Context& context, int size)
+    {
+        context.memsize(size);
+    }
+
+    void memload(Context& context, int offset, const void* src, int size)
+    {
+        context.memload(offset, src, size);
+    }
+
+    void sprsheet(Context& context, int offset, int bits, int sizex, int sizey, int countx, int county)
+    {
+        context.sprsheet(offset, bits, sizex, sizey, countx, county);
+    }
+
+    void spr(Context& context, int n, int x, int y, int w, int h, bool flip_x, bool flip_y)
+    {
+        context.spr(n, x, y, w, h, flip_x, flip_y);
+    }
 }

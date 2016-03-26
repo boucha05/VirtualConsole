@@ -2,10 +2,12 @@
 
 #include "Console.h"
 #include <SDL.h>
+#include <assert.h>
 #include <stdint.h>
 #include <vector>
 
 #define VERIFY(expr)    if(expr) ; else return false
+#define ASSERT(expr)    (assert(expr))
 
 namespace Console
 {
@@ -48,6 +50,13 @@ namespace Console
         void camera(int x, int y);
         void rect(int x, int y, int w, int h);
         void rectfill(int x, int y, int w, int h);
+        void memsize(int size);
+        void memload(int offset, const void* src, int size);
+        void sprsheet(int offset, int bits, int sizex, int sizey, int countx, int county);
+        void spr(int n, int x, int y, int w, int h, bool flip_x, bool flip_y);
+
+        static const int cLog2MaxSpriteSize = 6;
+        static const int cMaxSpriteSize = 1 << cLog2MaxSpriteSize;
 
         bool                    mActive : 1;
         SDL_Window*             mWindow;
@@ -59,5 +68,14 @@ namespace Console
         uint32_t                mColor;
         std::vector<uint32_t>   mFrame;
         std::vector<uint32_t>   mColorTable;
+        std::vector<uint8_t>    mMemory;
+        uint32_t                mSpriteOffset;
+        uint32_t                mSpriteBits;
+        Point                   mLog2SpriteSize;
+        Point                   mSpriteSize;
+        Point                   mLog2SpriteCount;
+        Point                   mSpriteCount;
+        Point                   mLog2SpriteSheetSize;
+        Point                   mSpriteSheetSize;
     };
 }
