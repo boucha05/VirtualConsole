@@ -291,14 +291,14 @@ namespace Console
 
     void Context::memload(int offset, const void* src, int size)
     {
-        ASSERT(offset + size <= mMemory.size());
+        ASSERT(static_cast<size_t>(offset + size) <= mMemory.size());
         memcpy(mMemory.data() + offset, src, size);
     }
 
     void Context::bmpload(int offset, int stride, int bits, int shift, const void* src, int sizex, int sizey)
     {
         bits = ((1 << bits) - 1) << shift;
-        ASSERT(offset + stride * sizey + sizex <= mMemory.size());
+        ASSERT(static_cast<size_t>(offset + stride * sizey + sizex) <= mMemory.size());
         auto srcMem = static_cast<const uint8_t*>(src);
         auto dstMem = static_cast<uint8_t*>(mMemory.data() + offset);
         for (int y = 0; y < sizey; ++y)

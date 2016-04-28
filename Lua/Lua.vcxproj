@@ -18,34 +18,95 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lapi.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lauxlib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lbaselib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lbitlib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lcode.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lcorolib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lctype.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\ldblib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\ldebug.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\ldo.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\ldump.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lfunc.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lgc.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\linit.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\liolib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\llex.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lmathlib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lmem.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\loadlib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lobject.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lopcodes.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\loslib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lparser.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lstate.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lstring.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lstrlib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\ltable.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\ltablib.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\ltm.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lundump.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lvm.c" />
+    <ClCompile Include="..\Contrib\lua-5.2.4\src\lzio.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lapi.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lauxlib.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lcode.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lctype.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\ldebug.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\ldo.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lfunc.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lgc.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\llex.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\llimits.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lmem.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lobject.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lopcodes.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lparser.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lstate.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lstring.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\ltable.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\ltm.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lua.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lua.hpp" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\luaconf.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lualib.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lundump.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lvm.h" />
+    <ClInclude Include="..\Contrib\lua-5.2.4\src\lzio.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AA46435D-ECBA-4D14-AC2B-89E9490F1B63}</ProjectGuid>
+    <ProjectGuid>{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Sandbox</RootNamespace>
+    <RootNamespace>Lua</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -69,43 +130,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Contrib\SDL2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Contrib\SDL2\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Contrib\SDL2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Contrib\SDL2\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Contrib\SDL2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Contrib\SDL2\lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir);$(SolutionDir)Contrib\SDL2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Contrib\SDL2\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
-    <PostBuildEvent>
-      <Command>@xcopy /EQY "$(SolutionDir)Contrib\SDL2\lib\x86\*.dll" "$(OutputPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -113,17 +149,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
-    <PostBuildEvent>
-      <Command>@xcopy /EQY "$(SolutionDir)Contrib\SDL2\lib\x64\*.dll" "$(OutputPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -133,19 +163,13 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>@xcopy /EQY "$(SolutionDir)Contrib\SDL2\lib\x86\*.dll" "$(OutputPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,38 +179,14 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>@xcopy /EQY "$(SolutionDir)Contrib\SDL2\lib\x64\*.dll" "$(OutputPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="ConsoleImpl.cpp" />
-    <ClCompile Include="LuaState.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="API.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="ConsoleImpl.h" />
-    <ClInclude Include="LuaState.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lua\Lua.vcxproj">
-      <Project>{73d83808-bc9d-4adb-8c2a-92b8c4af6201}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

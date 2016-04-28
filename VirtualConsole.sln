@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{AA46435D-ECBA-4D14-AC2B-89E9490F1B63}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "Lua\Lua.vcxproj", "{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{AA46435D-ECBA-4D14-AC2B-89E9490F1B63}.Release|x64.Build.0 = Release|x64
 		{AA46435D-ECBA-4D14-AC2B-89E9490F1B63}.Release|x86.ActiveCfg = Release|Win32
 		{AA46435D-ECBA-4D14-AC2B-89E9490F1B63}.Release|x86.Build.0 = Release|Win32
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Debug|x64.ActiveCfg = Debug|x64
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Debug|x64.Build.0 = Debug|x64
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Debug|x86.ActiveCfg = Debug|Win32
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Debug|x86.Build.0 = Debug|Win32
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Release|x64.ActiveCfg = Release|x64
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Release|x64.Build.0 = Release|x64
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Release|x86.ActiveCfg = Release|Win32
+		{73D83808-BC9D-4ADB-8C2A-92B8C4AF6201}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

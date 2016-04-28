@@ -4,3 +4,6 @@
 /Sandbox/x64
 /Sandbox/Debug
 /Sandbox/Release
+/Lua/Debug
+/Lua/Release
+/Lua/x64

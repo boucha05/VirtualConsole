@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Console.h"
+#include "LuaState.h"
 
 #define VERIFY(expr)    if(expr) ; else return false
 
@@ -92,4 +93,5 @@ private:
     void initialize();
 
     Console::Context*   mContext;
+    LuaState*           mLua;
 };
