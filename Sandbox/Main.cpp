@@ -34,7 +34,7 @@ protected:
         colortable(peach, 255, 204, 170);
 
         memsize(mem_size);
-        memload(mem_sprite_addr, sprite_sheet, sizeof(sprite_sheet));
+        bmpload(mem_sprite_addr, mem_sprite_width, 4, 0, sprite_sheet, 128, 128);
     }
 
     void update()
@@ -61,7 +61,7 @@ protected:
         }
 
         camera(210, 10);
-        sprsheet(mem_sprite_addr, 4, 8, 8, 16, 16);
+        sprsheet(mem_sprite_addr, 4, 0, 8, 8, 16, 16);
         spr(0, 0, 0, 16, 16);
     }
 
@@ -88,7 +88,9 @@ protected:
     enum
     {
         mem_sprite_addr = 0x0000,
-        mem_sprite_size = 128 * 128 * 4,
+        mem_sprite_width = 128,
+        mem_sprite_height = 128,
+        mem_sprite_size = mem_sprite_width * mem_sprite_height * 4,
         mem_size = mem_sprite_addr + mem_sprite_size
     };
 };

@@ -68,9 +68,14 @@ public:
         Console::memload(*mContext, offset, src, size);
     }
 
-    void sprsheet(int offset, int bits, int sizex, int sizey, int countx, int county)
+    void bmpload(int offset, int stride, int bits, int shift, const void* src, int sizex, int sizey)
     {
-        Console::sprsheet(*mContext, offset, bits, sizex, sizey, countx, county);
+        Console::bmpload(*mContext, offset, stride, bits, shift, src, sizex, sizey);
+    }
+
+    void sprsheet(int offset, int bits, int shift, int sizex, int sizey, int countx, int county)
+    {
+        Console::sprsheet(*mContext, offset, bits, shift, sizex, sizey, countx, county);
     }
 
     void spr(int n, int x, int y, int w, int h, bool flip_x = false, bool flip_y = false)

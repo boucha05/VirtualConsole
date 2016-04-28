@@ -35,6 +35,7 @@ namespace Console
     void rectfill(Context& context, int x, int y, int w, int h);
     void memsize(Context& context, int size);
     void memload(Context& context, int offset, const void* src, int size);
-    void sprsheet(Context& context, int offset, int bits, int sizex, int sizey, int countx, int county);
+    void bmpload(Context& context, int offset, int stride, int bits, int shift, const void* src, int sizex, int sizey);
+    void sprsheet(Context& context, int offset, int bits, int shift, int sizex, int sizey, int countx, int county);
     void spr(Context& context, int n, int x, int y, int w, int h, bool flip_x, bool flip_y);
 }

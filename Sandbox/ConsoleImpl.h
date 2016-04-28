@@ -52,7 +52,8 @@ namespace Console
         void rectfill(int x, int y, int w, int h);
         void memsize(int size);
         void memload(int offset, const void* src, int size);
-        void sprsheet(int offset, int bits, int sizex, int sizey, int countx, int county);
+        void bmpload(int offset, int stride, int bits, int shift, const void* src, int sizex, int sizey);
+        void sprsheet(int offset, int bits, int shift, int sizex, int sizey, int countx, int county);
         void spr(int n, int x, int y, int w, int h, bool flip_x, bool flip_y);
 
         static const int cLog2MaxSpriteSize = 6;
@@ -71,6 +72,7 @@ namespace Console
         std::vector<uint8_t>    mMemory;
         uint32_t                mSpriteOffset;
         uint32_t                mSpriteBits;
+        uint32_t                mSpriteShift;
         Point                   mLog2SpriteSize;
         Point                   mSpriteSize;
         Point                   mLog2SpriteCount;

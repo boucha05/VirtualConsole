@@ -168,7 +168,7 @@ namespace Console
         clip(0, 0, mScreen.size.x, mScreen.size.y);
         camera(0, 0);
         color(0);
-        sprsheet(0, 0, 0, 0, 0, 0);
+        sprsheet(0, 0, 0, 0, 0, 0, 0);
     }
 
     void Context::flip()
@@ -292,10 +292,27 @@ namespace Console
     void Context::memload(int offset, const void* src, int size)
     {
         ASSERT(offset + size <= mMemory.size());
-        memcpy(mMemory.data(), src, size);
+        memcpy(mMemory.data() + offset, src, size);
     }
 
-    void Context::sprsheet(int offset, int bits, int sizex, int sizey, int countx, int county)
+    void Context::bmpload(int offset, int stride, int bits, int shift, const void* src, int sizex, int sizey)
+    {
+        bits = ((1 << bits) - 1) << shift;
+        ASSERT(offset + stride * sizey + sizex <= mMemory.size());
+        auto srcMem = static_cast<const uint8_t*>(src);
+        auto dstMem = static_cast<uint8_t*>(mMemory.data() + offset);
+        for (int y = 0; y < sizey; ++y)
+        {
+            for (int x = 0; x < sizex; ++x)
+            {
+                auto srcData = *srcMem++ >> shift;
+                dstMem[x] = (dstMem[x] & ~bits) | (srcData & bits);
+            }
+            dstMem += stride;
+        }
+    }
+
+    void Context::sprsheet(int offset, int bits, int shift, int sizex, int sizey, int countx, int county)
     {
         ASSERT(isPowerOf2(sizex));
         ASSERT(sizex <= cMaxSpriteSize);
@@ -305,7 +322,8 @@ namespace Console
         ASSERT(isPowerOf2(county));
 
         mSpriteOffset = offset;
-        mSpriteBits = bits;
+        mSpriteBits = (1 << bits) - 1;
+        mSpriteShift = shift;
         mLog2SpriteSize.set(getPowerOf2(sizex), getPowerOf2(sizey));
         mSpriteSize.set(sizex, sizey);
         mLog2SpriteCount.set(getPowerOf2(countx), getPowerOf2(county));
@@ -356,7 +374,7 @@ namespace Console
             int src = srcOffset;
             for (int posx = 0; posx < region.size.x; ++posx)
             {
-                uint8_t value = mMemory[src];
+                uint8_t value = (mMemory[src] >> mSpriteShift) & mSpriteBits;
                 src += pitch.x;
                 uint32_t pixel = mColorTable[value];
                 mFrame[dstOffset + posx] = pixel;
