@@ -13,7 +13,6 @@ Application::~Application()
 void Application::initialize()
 {
     mContext = nullptr;
-    mLua = nullptr;
 }
 
 bool Application::create()
@@ -22,16 +21,12 @@ bool Application::create()
     Console::Config config;
     mContext = Console::createContext(config);
     VERIFY(mContext);
-    mLua = LuaState::create();
-    VERIFY(mLua);
-    VERIFY(mLua->openConsole(*mContext));
+    mLua.setContext(*mContext);
     return true;
 }
 
 void Application::destroy()
 {
-    if (mLua)
-        LuaState::destroy(*mLua);
     if (mContext)
         Console::destroyContext(*mContext);
     initialize();

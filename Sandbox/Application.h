@@ -84,6 +84,11 @@ public:
         Console::spr(*mContext, n, x, y, w, h, flip_x, flip_y);
     }
 
+    Lua::State& lua()
+    {
+        return mLua;
+    }
+
 protected:
     virtual void init() = 0;
     virtual void update() = 0;
@@ -93,5 +98,5 @@ private:
     void initialize();
 
     Console::Context*   mContext;
-    LuaState*           mLua;
+    Lua::State          mLua;
 };

@@ -12,5 +12,6 @@
     <ClInclude Include="ConsoleImpl.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="LuaState.h" />
+    <ClInclude Include="Bindings.h" />
   </ItemGroup>
 </Project>

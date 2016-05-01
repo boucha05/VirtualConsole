@@ -178,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Bindings.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleImpl.h" />
     <ClInclude Include="LuaState.h" />
