@@ -1,5 +1,7 @@
 #include "Application.h"
 
+using namespace Console;
+
 Application::Application()
 {
     initialize();
@@ -18,9 +20,9 @@ void Application::initialize()
 bool Application::create()
 {
     destroy();
-    Console::Config config;
-    mContext = Console::createContext(config);
-    VERIFY(mContext);
+    Config config;
+    mContext.reset(new Context(config));
+    VERIFY(mContext->isValid());
     mLua.setContext(*mContext);
     return true;
 }
@@ -28,7 +30,7 @@ bool Application::create()
 void Application::destroy()
 {
     if (mContext)
-        Console::destroyContext(*mContext);
+        mContext.reset();
     initialize();
 }
 
@@ -36,11 +38,11 @@ bool Application::run()
 {
     VERIFY(create());
     init();
-    while (Console::isActive(*mContext))
+    while (mContext && mContext->isActive())
     {
         update();
         render();
-        flip();
+        mContext->flip();
     }
     return true;
 }

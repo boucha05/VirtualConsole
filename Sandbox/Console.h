@@ -1,8 +1,17 @@
 #pragma once
 
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
+#include <assert.h>
+#include <stdint.h>
+#include <vector>
+
+#define VERIFY(expr)    if(expr) ; else return false
+#define ASSERT(expr)    (assert(expr))
+
 namespace Console
 {
-    struct Context;
+    class Context;
 
     struct Config
     {
@@ -20,22 +29,67 @@ namespace Console
         }
     };
 
-    Context* createContext(const Config& config);
-    void destroyContext(Context& context);
-    bool isActive(Context& context);
+    struct Point
+    {
+        int             x;
+        int             y;
 
-    void flip(Context& context);
-    void clip(Context& context, int x, int y, int w, int h);
-    void color(Context& context, int value);
-    void colorcount(Context& context, int value);
-    void colortable(Context& context, int index, int r, int g, int b);
-    void cls(Context& context);
-    void camera(Context& context, int x, int y);
-    void rect(Context& context, int x, int y, int w, int h);
-    void rectfill(Context& context, int x, int y, int w, int h);
-    void memsize(Context& context, int size);
-    void memload(Context& context, int offset, const void* src, int size);
-    void bmpload(Context& context, int offset, int stride, int bits, int shift, const void* src, int sizex, int sizey);
-    void sprsheet(Context& context, int offset, int bits, int shift, int sizex, int sizey, int countx, int county);
-    void spr(Context& context, int n, int x, int y, int w, int h, bool flip_x, bool flip_y);
+        void set(int _x, int _y);
+        void add(const Point& p);
+        void sub(const Point& p);
+    };
+
+    struct Rect
+    {
+        Point           pos;
+        Point           size;
+
+        void set(int _x, int _y, int _width, int _height);
+        void corners(const Point& p0, const Point& p1);
+        void intersection(const Rect& r1, const Rect& r2);
+        bool empty() const;
+    };
+
+    class Context
+    {
+    public:
+        Context(const Config& config);
+        ~Context();
+        void update();
+        bool isValid();
+        bool isActive();
+        void reboot();
+
+#include "Bindings.h"
+
+    private:
+        void initialize();
+        bool create(const Config& config);
+        void destroy();
+
+        static const int cLog2MaxSpriteSize = 6;
+        static const int cMaxSpriteSize = 1 << cLog2MaxSpriteSize;
+
+        bool                    mValid : 1;
+        bool                    mActive : 1;
+        SDL_Window*             mWindow;
+        SDL_Renderer*           mRenderer;
+        SDL_Texture*            mTexture;
+        Rect                    mScreen;
+        Rect                    mClip;
+        Point                   mCamera;
+        uint32_t                mColor;
+        std::vector<uint32_t>   mFrame;
+        std::vector<uint32_t>   mColorTable;
+        std::vector<uint8_t>    mMemory;
+        uint32_t                mSpriteOffset;
+        uint32_t                mSpriteBits;
+        uint32_t                mSpriteShift;
+        Point                   mLog2SpriteSize;
+        Point                   mSpriteSize;
+        Point                   mLog2SpriteCount;
+        Point                   mSpriteCount;
+        Point                   mLog2SpriteSheetSize;
+        Point                   mSpriteSheetSize;
+    };
 }

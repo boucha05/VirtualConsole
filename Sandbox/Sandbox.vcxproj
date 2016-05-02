@@ -171,16 +171,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="ConsoleImpl.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="LuaState.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="API.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bindings.h" />
     <ClInclude Include="Console.h" />
-    <ClInclude Include="ConsoleImpl.h" />
     <ClInclude Include="LuaState.h" />
   </ItemGroup>
   <ItemGroup>

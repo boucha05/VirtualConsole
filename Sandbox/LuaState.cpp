@@ -1,14 +1,11 @@
 #include "LuaState.h"
+#include "Console.h"
 
 extern "C" {
 #include <Contrib/lua-5.2.4/src/lauxlib.h>
 #include <Contrib/lua-5.2.4/src/lstate.h>
 #include <Contrib/lua-5.2.4/src/lualib.h>
 }
-
-#include "ConsoleImpl.h"
-
-#define VERIFY(expr)    if(expr) ; else return false
 
 namespace
 {

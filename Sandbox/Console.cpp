@@ -1,4 +1,4 @@
-#include "ConsoleImpl.h"
+#include "Console.h"
 #include <SDL_bits.h>
 #include <algorithm>
 
@@ -93,8 +93,21 @@ namespace Console
 
     ///////////////////////////////////////////////////////////////////////////
 
+    Context::Context(const Config& config)
+    {
+        initialize();
+        if (!create(config))
+            destroy();
+    }
+
+    Context::~Context()
+    {
+        destroy();
+    }
+
     void Context::initialize()
     {
+        mValid = false;
         mActive = false;
         mWindow = nullptr;
         mRenderer = nullptr;
@@ -108,7 +121,7 @@ namespace Console
         VERIFY(SDLInstance::initialized());
 
         mScreen.set(0, 0, config.screenWidth, config.screenHeight);
-        mWindow = SDL_CreateWindow("Virtual Console", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, config.windowWidth, config.windowHeight, SDL_WINDOW_RESIZABLE);
+        mWindow = SDL_CreateWindow("Virtual Console", 100, 100, config.windowWidth, config.windowHeight, SDL_WINDOW_RESIZABLE);
         VERIFY(mWindow);
 
         mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -120,6 +133,7 @@ namespace Console
         mFrame.resize(config.screenWidth * config.screenHeight, 0);
 
         mActive = true;
+        mValid = true;
 
         reboot();
         update();
@@ -153,6 +167,11 @@ namespace Console
                 }
             }
         }
+    }
+
+    bool Context::isValid()
+    {
+        return mValid;
     }
 
     bool Context::isActive()

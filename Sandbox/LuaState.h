@@ -4,7 +4,7 @@
 
 namespace Console
 {
-    struct Context;
+    class Context;
 }
 
 namespace Lua
