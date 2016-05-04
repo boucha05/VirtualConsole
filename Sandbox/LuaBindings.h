@@ -91,14 +91,26 @@ int lua_function_memsize(lua_State* state)
     return 0;
 }
 
-int lua_function_memload(lua_State* state)
+int lua_function_memcopy(lua_State* state)
 {
     if(!check_stack_size(state, 3)) return lua_error(state);
     int arg_offset; if(!read(state, 1, arg_offset)) return lua_error(state);
-    const void* arg_src; if(!read(state, 2, arg_src)) return lua_error(state);
+    int arg_src; if(!read(state, 2, arg_src)) return lua_error(state);
     int arg_size; if(!read(state, 3, arg_size)) return lua_error(state);
-    get_context(state).memload(arg_offset, arg_src, arg_size);
+    get_context(state).memcopy(arg_offset, arg_src, arg_size);
     return 0;
+}
+
+int lua_function_fileload(lua_State* state)
+{
+    if(!check_stack_range(state, 2, 4)) return lua_error(state);
+    int arg_offset; if(!read(state, 1, arg_offset)) return lua_error(state);
+    const char* arg_filename; if(!read(state, 2, arg_filename)) return lua_error(state);
+    int arg_start = 0; if(!read_opt(state, 3, arg_start)) return lua_error(state);
+    int arg_size = -1; if(!read_opt(state, 4, arg_size)) return lua_error(state);
+    int result = get_context(state).fileload(arg_offset, arg_filename, arg_start, arg_size);
+    push(state, result);
+    return 1;
 }
 
 int lua_function_bmpload(lua_State* state)
@@ -108,7 +120,7 @@ int lua_function_bmpload(lua_State* state)
     int arg_stride; if(!read(state, 2, arg_stride)) return lua_error(state);
     int arg_bits; if(!read(state, 3, arg_bits)) return lua_error(state);
     int arg_shift; if(!read(state, 4, arg_shift)) return lua_error(state);
-    const void* arg_src; if(!read(state, 5, arg_src)) return lua_error(state);
+    int arg_src; if(!read(state, 5, arg_src)) return lua_error(state);
     int arg_sizex; if(!read(state, 6, arg_sizex)) return lua_error(state);
     int arg_sizey; if(!read(state, 7, arg_sizey)) return lua_error(state);
     get_context(state).bmpload(arg_offset, arg_stride, arg_bits, arg_shift, arg_src, arg_sizex, arg_sizey);
@@ -154,7 +166,8 @@ const struct luaL_Reg lua_functions[] = {
     {"rect", lua_function_rect},
     {"rectfill", lua_function_rectfill},
     {"memsize", lua_function_memsize},
-    {"memload", lua_function_memload},
+    {"memcopy", lua_function_memcopy},
+    {"fileload", lua_function_fileload},
     {"bmpload", lua_function_bmpload},
     {"sprsheet", lua_function_sprsheet},
     {"spr", lua_function_spr},

@@ -66,6 +66,14 @@ namespace
         return true;
     }
 
+    bool read(lua_State* state, int index, const char*& value)
+    {
+        if (!lua_isstring(state, index))
+            return false;
+        value = lua_tostring(state, index);
+        return true;
+    }
+
     template <typename T>
     bool read_opt(lua_State* state, int index, T& value)
     {
@@ -73,6 +81,11 @@ namespace
         if (top < index)
             return true;
         return read(state, index, value);
+    }
+
+    void push(lua_State* state, int value)
+    {
+        lua_pushinteger(state, value);
     }
 
 #include "LuaBindings.h"

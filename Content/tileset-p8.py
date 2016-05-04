@@ -1,5 +1,7 @@
 #The following script was adapted from: https://gist.github.com/jamesgecko/64d7c1fc7d3558ab9902
 from PIL import Image
+import os
+import struct
 import sys
 
 PALETTE = ((0,0,0), (29, 43, 83), (128, 37, 83), (0, 135, 81),
@@ -10,8 +12,11 @@ PALETTE = ((0,0,0), (29, 43, 83), (128, 37, 83), (0, 135, 81),
 def main():
     if len(sys.argv) <= 1:
         print "%s filename" % sys.argv[0]
-    filename = sys.argv[1]
-    im = Image.open(filename)
+    for filename in sys.argv[1:]:
+        compile(filename, os.path.splitext(filename)[0] + ".Bitmap")
+
+def compile(input_filename, output_filename):
+    im = Image.open(input_filename)
     px = im.load()
     _, _, width, height = im.getbbox()
     img1 = []
@@ -21,13 +26,14 @@ def main():
             pixel1, pixel2 = downsample_2(px[x,y])
             row1.append(pixel1)
         img1.append(row1)
-    print_image(img1, width, height)
 
-def print_image(img1, width, height):
+    with open(output_filename, "wb") as output:
+        save_image(output, img1, width, height)
+
+def save_image(file, img1, width, height):
     for y in range(height):
         for x in range(width):
-            sys.stdout.write(" 0x%02x," %(img1[y][x]))
-        sys.stdout.write("\n")
+            file.write(struct.pack("B", (img1[y][x])))
 
 def downsample(rgb):
     ranks = []

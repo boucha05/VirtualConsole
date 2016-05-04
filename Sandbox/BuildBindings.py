@@ -56,7 +56,7 @@ def exportLuaBindings(file, functions):
             file.write("%s result = " % ret)
         file.write("get_context(state).%s(%s);\n" %(name, ", ".join(arg_names)))
         if ret:
-            file.write("    push(state, %s);\n" % ret)
+            file.write("    push(state, result);\n")
             file.write("    return 1;\n")
         else:
             file.write("    return 0;\n")

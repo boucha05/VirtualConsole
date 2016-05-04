@@ -15,19 +15,19 @@ local indigo = 13
 local pink = 14
 local peach = 15
 
-local mem_sprite_addr = 0x0000
 local mem_sprite_width = 128
 local mem_sprite_height = 128
 local mem_sprite_size = mem_sprite_width * mem_sprite_height * 4
-local mem_size = mem_sprite_addr + mem_sprite_size
+local mem_scratch_size = 0x8000
 
-local sprite_sheet = nil
+local mem_sprite_addr = 0x0000
+local mem_scratch_addr = mem_sprite_addr + mem_sprite_size
 
-function set_sprite_sheet(addr)
-    sprite_sheet = addr
-end
+local mem_size = mem_scratch_addr + mem_scratch_size
 
 function init()
+    memsize(mem_size)
+
     colorcount(16)
     colortable(black, 0, 0, 0)
     colortable(dark_blue, 29, 43, 83)
@@ -46,8 +46,8 @@ function init()
     colortable(pink, 255, 119, 168)
     colortable(peach, 255, 204, 170)
 
-    memsize(mem_size)
-    bmpload(mem_sprite_addr, mem_sprite_width, 4, 0, sprite_sheet, 128, 128)
+    fileload(mem_scratch_addr, "..\\Content\\SpriteSheet.Bitmap")
+    bmpload(mem_sprite_addr, mem_sprite_width, 4, 0, mem_scratch_addr, 128, 128)
 end
 
 function update()

@@ -3,21 +3,12 @@
 #include "Application.h"
 #include "Console.h"
 
-namespace
-{
-    static const char sprite_sheet[] =
-    {
-#include "Content/SpriteSheet.h"
-    };
-}
-
 class Sandbox : public Application
 {
 protected:
     void init()
-    {
+    {   
         lua().doFile("Sandbox.lua");
-        lua().callv("set_sprite_sheet", (const void*)sprite_sheet);
         lua().callv("init");
     }
 

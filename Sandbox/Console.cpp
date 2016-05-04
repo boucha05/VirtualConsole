@@ -308,17 +308,47 @@ namespace Console
         mMemory.resize(size, 0);
     }
 
-    void Context::memload(int offset, const void* src, int size)
+    void Context::memcopy(int offset, int src, int size)
     {
-        ASSERT(static_cast<size_t>(offset + size) <= mMemory.size());
-        memcpy(mMemory.data() + offset, src, size);
+        int maxSize = static_cast<int>(mMemory.size()) - offset;
+        size = std::min(maxSize, size);
+        if (size > 0)
+            memcpy(mMemory.data() + offset, mMemory.data() + src, size);
     }
 
-    void Context::bmpload(int offset, int stride, int bits, int shift, const void* src, int sizex, int sizey)
+    int Context::fileload(int offset, const char* filename, int start, int size)
+    {
+        int maxSize = static_cast<int>(mMemory.size()) - offset;
+        if (maxSize <= 0)
+            return 0;
+
+        FILE* file = fopen(filename, "rb");
+        if (!file)
+            return 0;
+
+        fseek(file, 0, SEEK_END);
+        int readSize = static_cast<int>(ftell(file)) - start;
+        if (readSize > 0)
+        {
+            if (size <= 0)
+                size = readSize;
+
+            readSize = std::min(readSize, maxSize);
+            fseek(file, start, SEEK_SET);
+            if (readSize > 0)
+            {
+                readSize = static_cast<int>(fread(mMemory.data() + offset, 1, readSize, file));
+            }
+        }
+        fclose(file);
+        return readSize;
+    }
+
+    void Context::bmpload(int offset, int stride, int bits, int shift, int src, int sizex, int sizey)
     {
         bits = ((1 << bits) - 1) << shift;
         ASSERT(static_cast<size_t>(offset + stride * sizey + sizex) <= mMemory.size());
-        auto srcMem = static_cast<const uint8_t*>(src);
+        auto srcMem = static_cast<const uint8_t*>(mMemory.data() + src);
         auto dstMem = static_cast<uint8_t*>(mMemory.data() + offset);
         for (int y = 0; y < sizey; ++y)
         {
