@@ -88,6 +88,14 @@ namespace
         lua_pushinteger(state, value);
     }
 
+    void push(lua_State* state, void* value)
+    {
+        if (value)
+            lua_pushlightuserdata(state, value);
+        else
+            lua_pushnil(state);
+    }
+
 #include "LuaBindings.h"
 }
 

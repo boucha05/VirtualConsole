@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <assert.h>
 #include <stdint.h>
+#include <set>
 #include <vector>
 
 #define VERIFY(expr)    if(expr) ; else return false
@@ -50,6 +51,23 @@ namespace Console
         bool empty() const;
     };
 
+    struct Binary
+    {
+        std::vector<uint8_t>    data;
+    };
+
+    struct UserData
+    {
+        enum class Type : uint32_t
+        {
+            Unknown,
+            Binary,
+        };
+
+        Type    type;
+        void*   data;
+    };
+
     class Context
     {
     public:
@@ -59,6 +77,8 @@ namespace Console
         bool isValid();
         bool isActive();
         void reboot();
+        UserData* createUserData(UserData::Type type);
+        void destroyUserData(UserData* userData);
 
 #include "Bindings.h"
 
@@ -66,6 +86,9 @@ namespace Console
         void initialize();
         bool create(const Config& config);
         void destroy();
+        void clearUserData();
+
+        typedef std::set<UserData*> UserDataTable;
 
         static const int cLog2MaxSpriteSize = 6;
         static const int cMaxSpriteSize = 1 << cLog2MaxSpriteSize;
@@ -91,5 +114,6 @@ namespace Console
         Point                   mSpriteCount;
         Point                   mLog2SpriteSheetSize;
         Point                   mSpriteSheetSize;
+        UserDataTable           mUserData;
     };
 }

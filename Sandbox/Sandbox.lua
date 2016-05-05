@@ -1,3 +1,8 @@
+local content =
+{
+    SpriteSheet = importbinary("..\\Content\\SpriteSheet.Bitmap")
+}
+
 local black = 0
 local dark_blue = 1
 local dark_purple = 2
@@ -46,7 +51,7 @@ function init()
     colortable(pink, 255, 119, 168)
     colortable(peach, 255, 204, 170)
 
-    fileload(mem_scratch_addr, "..\\Content\\SpriteSheet.Bitmap")
+    fileload(mem_scratch_addr, content.SpriteSheet)
     bmpload(mem_sprite_addr, mem_sprite_width, 4, 0, mem_scratch_addr, 128, 128)
 end
 

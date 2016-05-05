@@ -143,6 +143,7 @@ namespace Console
 
     void Context::destroy()
     {
+        clearUserData();
         if (mTexture)
             SDL_DestroyTexture(mTexture);
         if (mRenderer)
@@ -188,6 +189,52 @@ namespace Console
         camera(0, 0);
         color(0);
         sprsheet(0, 0, 0, 0, 0, 0, 0);
+    }
+
+    UserData* Context::createUserData(UserData::Type type)
+    {
+        auto userData = new UserData();
+        userData->type = type;
+        userData->data = nullptr;
+
+        switch (type)
+        {
+        case UserData::Type::Binary:
+            userData->data = new Binary();
+            break;
+
+        default:
+            ASSERT(false);
+        }
+
+        mUserData.insert(userData);
+        return userData;
+    }
+
+    void Context::destroyUserData(UserData* userData)
+    {
+        if (!userData)
+            return;
+
+        switch (userData->type)
+        {
+        case UserData::Type::Binary:
+            delete static_cast<Binary*>(userData->data);
+            break;
+
+        default:
+            ASSERT(false);
+        }
+
+        if (!mUserData.erase(userData))
+            delete userData;
+    }
+
+    void Context::clearUserData()
+    {
+        for (auto userData : mUserData)
+            delete userData;
+        mUserData.clear();
     }
 
     void Context::flip()
@@ -316,31 +363,54 @@ namespace Console
             memcpy(mMemory.data() + offset, mMemory.data() + src, size);
     }
 
-    int Context::fileload(int offset, const char* filename, int start, int size)
+    void* Context::importbinary(const char* filename)
     {
+        auto userData = createUserData(UserData::Type::Binary);
+        auto binary = static_cast<Binary*>(userData->data);
+        if (binary)
+        {
+            FILE* file = fopen(filename, "rb");
+            if (file)
+            {
+                fseek(file, 0, SEEK_END);
+                int size = static_cast<int>(ftell(file));
+                if (size > 0)
+                {
+                    fseek(file, 0, SEEK_SET);
+                    binary->data.resize(size, 0);
+                    size = static_cast<int>(fread(binary->data.data(), 1, size, file));
+                    binary->data.resize(size, 0);
+                }
+                fclose(file);
+            }
+        }
+        return userData;
+    }
+
+    int Context::fileload(int offset, const void* file, int start, int size)
+    {
+        auto userData = static_cast<const UserData*>(file);
+        if (!userData || (userData->type != UserData::Type::Binary) || !userData->data)
+            return 0;
+
+        auto* binary = static_cast<Binary*>(userData->data);
+
         int maxSize = static_cast<int>(mMemory.size()) - offset;
         if (maxSize <= 0)
             return 0;
 
-        FILE* file = fopen(filename, "rb");
-        if (!file)
-            return 0;
-
-        fseek(file, 0, SEEK_END);
-        int readSize = static_cast<int>(ftell(file)) - start;
+        int readSize = static_cast<int>(binary->data.size());
         if (readSize > 0)
         {
             if (size <= 0)
                 size = readSize;
 
             readSize = std::min(readSize, maxSize);
-            fseek(file, start, SEEK_SET);
             if (readSize > 0)
             {
-                readSize = static_cast<int>(fread(mMemory.data() + offset, 1, readSize, file));
+                memcpy(mMemory.data() + offset, binary->data.data(), readSize);
             }
         }
-        fclose(file);
         return readSize;
     }
 
