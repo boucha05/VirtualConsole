@@ -9,22 +9,6 @@ extern "C" {
 
 namespace
 {
-    static const char* cContext = "Context";
-
-    void set_context(lua_State* state, Console::Context& context)
-    {
-        lua_pushlightuserdata(state, const_cast<char*>(cContext));
-        lua_pushlightuserdata(state, &context);
-        lua_settable(state, LUA_REGISTRYINDEX);
-    }
-
-    Console::Context& get_context(lua_State* state)
-    {
-        lua_pushlightuserdata(state, const_cast<char*>(cContext));
-        lua_gettable(state, LUA_REGISTRYINDEX);
-        return *static_cast<Console::Context*>(lua_touserdata(state, -1));
-    }
-
     bool check_stack_size(lua_State* state, int size)
     {
         return lua_gettop(state) == size;
@@ -95,8 +79,48 @@ namespace
         else
             lua_pushnil(state);
     }
+}
 
-#include "LuaBindings.h"
+namespace Console
+{
+    static const char* cContext = "Context";
+
+    void set_context(lua_State* state, Console::Context& context)
+    {
+        lua_pushlightuserdata(state, const_cast<char*>(cContext));
+        lua_pushlightuserdata(state, &context);
+        lua_settable(state, LUA_REGISTRYINDEX);
+    }
+
+    Console::Context& get_context(lua_State* state)
+    {
+        lua_pushlightuserdata(state, const_cast<char*>(cContext));
+        lua_gettable(state, LUA_REGISTRYINDEX);
+        return *static_cast<Console::Context*>(lua_touserdata(state, -1));
+    }
+
+#include "LuaConsoleBindings.h"
+}
+
+namespace Content
+{
+    static const char* cContext = "Content";
+
+    void set_context(lua_State* state, Console::Context& context)
+    {
+        lua_pushlightuserdata(state, const_cast<char*>(cContext));
+        lua_pushlightuserdata(state, &context);
+        lua_settable(state, LUA_REGISTRYINDEX);
+    }
+
+    Console::Context& get_context(lua_State* state)
+    {
+        lua_pushlightuserdata(state, const_cast<char*>(cContext));
+        lua_gettable(state, LUA_REGISTRYINDEX);
+        return *static_cast<Console::Context*>(lua_touserdata(state, -1));
+    }
+
+#include "LuaContentBindings.h"
 }
 
 namespace Lua
@@ -110,9 +134,6 @@ namespace Lua
     {
         mImpl = static_cast<Impl*>(luaL_newstate());
         luaL_openlibs(mImpl);
-
-        lua_pushglobaltable(mImpl);
-        luaL_setfuncs(mImpl, lua_functions, 0);
     }
 
     State::~State()
@@ -121,9 +142,18 @@ namespace Lua
             lua_close(mImpl);
     }
 
-    void State::setContext(Console::Context& context)
+    void State::loadConsoleBindings(Console::Context& context)
     {
-        ::set_context(mImpl, context);
+        lua_pushglobaltable(mImpl);
+        luaL_setfuncs(mImpl, Console::lua_functions, 0);
+        Console::set_context(mImpl, context);
+    }
+
+    void State::loadContentBindings(Console::Context& context)
+    {
+        lua_pushglobaltable(mImpl);
+        luaL_setfuncs(mImpl, Content::lua_functions, 0);
+        Content::set_context(mImpl, context);
     }
 
     void State::push(bool value)

@@ -80,7 +80,8 @@ namespace Console
         UserData* createUserData(UserData::Type type);
         void destroyUserData(UserData* userData);
 
-#include "Bindings.h"
+#include "ConsoleBindings.h"
+#include "ContentBindings.h"
 
     private:
         void initialize();

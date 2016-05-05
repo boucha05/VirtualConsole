@@ -69,10 +69,14 @@ def exportLuaBindings(file, functions):
     file.write("    {NULL, NULL},\n")
     file.write("};\n\n")
 
-def main():
-    bindings = importBindings("Bindings.h")
-    with open("LuaBindings.h", "w") as file:
+def buildBindings(input, output):
+    bindings = importBindings(input)
+    with open(output, "w") as file:
         exportLuaBindings(file, bindings)
+
+def main():
+    buildBindings("ConsoleBindings.h", "LuaConsoleBindings.h")
+    buildBindings("ContentBindings.h", "LuaContentBindings.h")
 
 if __name__ == '__main__':
     main()

@@ -10,6 +10,9 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="LuaState.h" />
-    <ClInclude Include="Bindings.h" />
+    <ClInclude Include="ConsoleBindings.h" />
+    <ClInclude Include="ContentBindings.h" />
+    <ClInclude Include="LuaConsoleBindings.h" />
+    <ClInclude Include="LuaContentBindings.h" />
   </ItemGroup>
 </Project>

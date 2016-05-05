@@ -23,7 +23,6 @@ bool Application::create()
     Config config;
     mContext.reset(new Context(config));
     VERIFY(mContext->isValid());
-    mLua.setContext(*mContext);
     return true;
 }
 

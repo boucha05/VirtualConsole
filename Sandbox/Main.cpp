@@ -7,8 +7,10 @@ class Sandbox : public Application
 {
 protected:
     void init()
-    {   
+    {
+        lua().loadContentBindings(context());
         lua().doFile("Sandbox.lua");
+        lua().loadConsoleBindings(context());
         lua().callv("init");
     }
 

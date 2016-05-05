@@ -101,15 +101,6 @@ int lua_function_memcopy(lua_State* state)
     return 0;
 }
 
-int lua_function_importbinary(lua_State* state)
-{
-    if(!check_stack_size(state, 1)) return lua_error(state);
-    const char* arg_filename; if(!read(state, 1, arg_filename)) return lua_error(state);
-    void* result = get_context(state).importbinary(arg_filename);
-    push(state, result);
-    return 1;
-}
-
 int lua_function_fileload(lua_State* state)
 {
     if(!check_stack_range(state, 2, 4)) return lua_error(state);
@@ -176,7 +167,6 @@ const struct luaL_Reg lua_functions[] = {
     {"rectfill", lua_function_rectfill},
     {"memsize", lua_function_memsize},
     {"memcopy", lua_function_memcopy},
-    {"importbinary", lua_function_importbinary},
     {"fileload", lua_function_fileload},
     {"bmpload", lua_function_bmpload},
     {"sprsheet", lua_function_sprsheet},

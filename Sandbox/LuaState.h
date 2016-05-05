@@ -14,7 +14,8 @@ namespace Lua
     public:
         State();
         ~State();
-        void setContext(Console::Context& context);
+        void loadConsoleBindings(Console::Context& context);
+        void loadContentBindings(Console::Context& context);
         void push(bool value);
         void push(int value);
         void push(float value);

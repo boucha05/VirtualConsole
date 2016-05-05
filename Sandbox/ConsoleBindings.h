@@ -11,7 +11,6 @@ void rect(int x, int y, int w, int h);
 void rectfill(int x, int y, int w, int h);
 void memsize(int size);
 void memcopy(int offset, int src, int size);
-void* importbinary(const char* filename);
 int fileload(int offset, const void* file, int start = 0, int size = -1);
 void bmpload(int offset, int stride, int bits, int shift, int src, int sizex, int sizey);
 void sprsheet(int offset, int bits, int shift, int sizex, int sizey, int countx, int county);
